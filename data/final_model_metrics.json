@@ -1,0 +1,269 @@
+{
+  "dataset": {
+    "rows_total": 1110,
+    "rows_original": 110,
+    "rows_synthetic": 1000,
+    "combinations": 5,
+    "date_range": [
+      "2024-02-01",
+      "2071-10-01"
+    ],
+    "train_rows": 885,
+    "test_rows": 225,
+    "train_original": 90,
+    "train_synthetic": 795,
+    "test_original": 20,
+    "test_synthetic": 205,
+    "test_fraction": 0.2
+  },
+  "features": [
+    "origin",
+    "destination",
+    "commodity",
+    "vessel_type",
+    "bdi",
+    "vlsfo_usd_per_tonne",
+    "coal_price_usd_per_mt",
+    "iron_ore_price_usd_per_dmt",
+    "wind_kmh",
+    "wave_height_m",
+    "cyclone_risk",
+    "weather_delay_days",
+    "current_freight_usd_per_tonne"
+  ],
+  "excluded_features": [
+    "cargo_tonnes",
+    "previous_month_freight",
+    "freight_3_month_avg",
+    "freight_observation_count",
+    "data_origin",
+    "synthetic_generation_method",
+    "trajectory_id",
+    "year",
+    "month_number",
+    "quarter_number",
+    "data_source",
+    "ingested_at"
+  ],
+  "persistence_baseline": {
+    "train": {
+      "mae": 1.2419642876245234,
+      "rmse": 1.554385008525694,
+      "r2": 0.7642052600798412
+    },
+    "test": {
+      "mae": 1.1704982430575817,
+      "rmse": 1.442592057875871,
+      "r2": 0.7944410165807252
+    }
+  },
+  "linear_baseline": {
+    "train": {
+      "mae": 1.1510633483987542,
+      "rmse": 1.3446727979557882,
+      "r2": 0.8235384240604245
+    },
+    "test": {
+      "mae": 1.0690306787824648,
+      "rmse": 1.218353269347272,
+      "r2": 0.8533791092666733
+    }
+  },
+  "rf": {
+    "train": {
+      "mae": 0.8259993133742831,
+      "rmse": 0.9682024015548777,
+      "r2": 0.9085151404313762
+    },
+    "test": {
+      "mae": 1.0503212320537352,
+      "rmse": 1.2555866536321396,
+      "r2": 0.8442805830829231
+    }
+  },
+  "gb": {
+    "train": {
+      "mae": 1.0636757677392792,
+      "rmse": 1.2177433959579442,
+      "r2": 0.8552800243883224
+    },
+    "test": {
+      "mae": 1.057064888642031,
+      "rmse": 1.2112986118380047,
+      "r2": 0.8550721576700475
+    }
+  },
+  "histgb": {
+    "train": {
+      "mae": 0.9574989498316359,
+      "rmse": 1.1114067117607276,
+      "r2": 0.879451185171701
+    },
+    "test": {
+      "mae": 1.043800581020309,
+      "rmse": 1.2275450239566668,
+      "r2": 0.851158428132386
+    }
+  },
+  "rf_reg": {
+    "train": {
+      "mae": 0.9639627367932739,
+      "rmse": 1.1145579011163544,
+      "r2": 0.878766628084008
+    },
+    "test": {
+      "mae": 1.045580367662984,
+      "rmse": 1.220478295105149,
+      "r2": 0.8528671971687102
+    }
+  },
+  "selected_model": "HistGradientBoosting",
+  "selected_test_metrics": {
+    "mae": 1.043800581020309,
+    "rmse": 1.2275450239566668,
+    "r2": 0.851158428132386
+  },
+  "subset_performance": {
+    "all": {
+      "mae": 1.043800581020309,
+      "rmse": 1.2275450239566668,
+      "r2": 0.851158428132386
+    },
+    "original": {
+      "mae": 1.1651178376235967,
+      "rmse": 1.377662745602703,
+      "r2": 0.8047793541908046
+    },
+    "synthetic": {
+      "mae": 1.031964751107793,
+      "rmse": 1.2119042343268018,
+      "r2": 0.8549176809212564
+    }
+  },
+  "permutation_importance_pct": {
+    "origin": 74.61,
+    "coal_price_usd_per_mt": 14.95,
+    "destination": 10.12,
+    "commodity": 0.53,
+    "bdi": 0.08,
+    "vlsfo_usd_per_tonne": 0.05,
+    "iron_ore_price_usd_per_dmt": 0.0,
+    "wind_kmh": 0.0,
+    "wave_height_m": 0.0,
+    "cyclone_risk": 0.0,
+    "weather_delay_days": 0.0,
+    "current_freight_usd_per_tonne": 0.0,
+    "vessel_type": -0.34
+  },
+  "builtin_importance_pct": {},
+  "current_freight_perm_pct": 0.0,
+  "current_freight_builtin_pct": 0.0,
+  "current_freight_dominant": false,
+  "overfit_analysis": {
+    "RandomForest (depth=8)": {
+      "train_mae": 0.8259993133742831,
+      "test_mae": 1.0503212320537352,
+      "mae_gap": 0.22432191867945206,
+      "train_r2": 0.9085151404313762,
+      "test_r2": 0.8442805830829231,
+      "r2_gap": 0.06423455734845307
+    },
+    "GradientBoosting": {
+      "train_mae": 1.0636757677392792,
+      "test_mae": 1.057064888642031,
+      "mae_gap": -0.006610879097248112,
+      "train_r2": 0.8552800243883224,
+      "test_r2": 0.8550721576700475,
+      "r2_gap": 0.000207866718274885
+    },
+    "HistGradientBoosting": {
+      "train_mae": 0.9574989498316359,
+      "test_mae": 1.043800581020309,
+      "mae_gap": 0.08630163118867318,
+      "train_r2": 0.879451185171701,
+      "test_r2": 0.851158428132386,
+      "r2_gap": 0.028292757039314997
+    },
+    "RandomForest regularized (depth=6)": {
+      "train_mae": 0.9639627367932739,
+      "test_mae": 1.045580367662984,
+      "mae_gap": 0.08161763086971008,
+      "train_r2": 0.878766628084008,
+      "test_r2": 0.8528671971687102,
+      "r2_gap": 0.025899430915297783
+    }
+  },
+  "synthetic_reliance_experiment": {
+    "A_all_train_on_original_test": {
+      "mae": 1.2229153779831774,
+      "rmse": 1.441720787278786,
+      "r2": 0.7862026899052917
+    },
+    "B_original_only_train_on_original_test": {
+      "mae": 1.510898325327211,
+      "rmse": 1.6307736711264014,
+      "r2": 0.7264559337551475
+    },
+    "synthetic_improved_generalization": true,
+    "mae_diff_A_minus_B": -0.2879829473440336
+  },
+  "ml_beats_persistence": true,
+  "sample_predictions": [
+    {
+      "origin": "Australia West Coast",
+      "destination": "East Coast India",
+      "commodity": "Iron Ore",
+      "vessel_type": "Capesize",
+      "date": "2024-02-01",
+      "predicted": 10.498289103088561,
+      "numeric": true,
+      "is_nan": false,
+      "in_range": true
+    },
+    {
+      "origin": "Hay Point",
+      "destination": "East Coast India",
+      "commodity": "Coal",
+      "vessel_type": "Capesize",
+      "date": "2024-02-01",
+      "predicted": 14.300063371626937,
+      "numeric": true,
+      "is_nan": false,
+      "in_range": true
+    },
+    {
+      "origin": "Hay Point",
+      "destination": "East Coast India",
+      "commodity": "Coal",
+      "vessel_type": "Panamax",
+      "date": "2024-02-01",
+      "predicted": 17.32476316085027,
+      "numeric": true,
+      "is_nan": false,
+      "in_range": true
+    },
+    {
+      "origin": "Taboneo",
+      "destination": "East Coast India",
+      "commodity": "Thermal Coal",
+      "vessel_type": "Panamax",
+      "date": "2024-02-01",
+      "predicted": 10.173404252739626,
+      "numeric": true,
+      "is_nan": false,
+      "in_range": true
+    },
+    {
+      "origin": "Taboneo",
+      "destination": "East Coast India",
+      "commodity": "Thermal Coal",
+      "vessel_type": "Supramax",
+      "date": "2024-02-01",
+      "predicted": 11.892232307328719,
+      "numeric": true,
+      "is_nan": false,
+      "in_range": true
+    }
+  ],
+  "model_path": "/home/z/freight-cargo/freight_forecast_model_final.joblib"
+}

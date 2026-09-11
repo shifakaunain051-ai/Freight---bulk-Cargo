@@ -1,0 +1,141 @@
+NAVIFREIGHT — DECISION ENGINE SPECIFICATION
+
+Objective
+Combine procurement valuation, freight forecasting, vessel suitability and charter timing into one interpretable shipment decision.
+
+INPUTS
+- commodity
+- origin
+- destination / receiving port
+- intended cargo volume
+- current market/weather inputs required by Model V3
+
+PIPELINE
+1. Normalize/validate request.
+2. Run commodity procurement valuation.
+3. Run Model V3 freight forecast.
+4. Run vessel suitability/optimization against intended cargo volume and destination constraints.
+5. Determine charter timing.
+6. Produce overall strategy.
+7. Return evidence explaining the decision.
+
+PROCUREMENT
+Procurement is NOT an ML commodity price forecast.
+
+Use transparent valuation:
+- historical percentile
+- 3-month momentum
+- optionally volatility
+
+Signal:
+BUY / MONITOR / WAIT
+
+Current reference thresholds:
+- percentile <= 35: +40
+- percentile >= 75: -40
+- 3-month momentum <= -5%: +30
+- 3-month momentum >= +5%: -30
+- high volatility threshold: 8
+- BUY score >= 20
+- WAIT score <= -20
+- otherwise MONITOR
+
+Use latest available published commodity observation.
+Do not pretend a not-yet-published monthly value was known in real time.
+
+FREIGHT FORECAST
+Use immutable Model V3.
+Do not retrain or replace it.
+
+CHARTER TIMING
+Normal rules:
+- forecast increase >= +5% OR elevated weather risk → CHARTER NOW
+- forecast decline <= -5% under normal weather → WAIT TO CHARTER
+- otherwise → MONITOR FREIGHT
+
+WEATHER OVERRIDE
+If elevated weather risk changes the timing decision, expose the override explicitly in evidence.
+Do not silently change the decision.
+
+VESSEL OPTIMIZATION
+Do NOT select vessel solely by minimum predicted $/t.
+
+Consider:
+- intended cargo volume
+- standard DWT
+- parcel economics
+- utilization
+- route/corridor alignment
+- receiving-port operational draft
+- suitability constraints
+- predicted freight $/t
+- total freight outlay
+
+Hard exclusions:
+- cargo > standard DWT × 1.05
+- cargo < standard DWT × 0.45
+- vessel draft > port operational draft
+- unsupported canonical corridor
+
+Freight outlay:
+predicted_freight_usd_per_tonne × cargo_tonnes
+
+VESSEL CLASSES
+Capesize: 182,000 DWT, 18.20m draft
+Panamax: 82,500 DWT, 14.43m draft
+Supramax: 58,328 DWT, 12.80m draft
+
+IMPORTANT
+Do not make a blanket claim that Capesize is unsuitable for East Coast India.
+Suitability depends on receiving terminal and draft.
+
+OVERALL STRATEGY MATRIX
+
+BUY + CHARTER NOW
+→ BUY CARGO — CHARTER NOW
+
+BUY + WAIT TO CHARTER
+→ BUY CARGO — WAIT TO CHARTER
+
+BUY + MONITOR FREIGHT
+→ BUY CARGO — MONITOR FREIGHT
+
+MONITOR + CHARTER NOW
+→ MONITOR CARGO — CHARTER NOW
+
+MONITOR + WAIT TO CHARTER
+→ MONITOR CARGO — WAIT TO CHARTER
+
+MONITOR + MONITOR FREIGHT
+→ MONITOR CARGO — MONITOR FREIGHT
+
+WAIT + CHARTER NOW
+→ WAIT FOR CARGO — CHARTER NOW
+
+WAIT + WAIT TO CHARTER
+→ WAIT FOR CARGO — WAIT TO CHARTER
+
+WAIT + MONITOR FREIGHT
+→ WAIT FOR CARGO — MONITOR FREIGHT
+
+NO SUITABLE VESSEL
+→ NO SUITABLE VESSEL — RECONFIGURE SHIPMENT
+
+SEMANTIC CONSISTENCY
+charter_decision and overall_strategy must agree.
+If a weather override produces CHARTER NOW, the evidence must explain why.
+Do not return contradictory combinations.
+
+API TARGET
+POST /decision/analyze
+
+TEST REQUIREMENTS
+Test:
+- all 9 strategy combinations
+- weather override
+- no suitable vessel
+- cargo-volume effects
+- draft exclusions
+- procurement integration
+- freight forecast integration
+- semantic consistency of returned decisions

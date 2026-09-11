@@ -1,0 +1,3 @@
+route_code,origin,destination,vessel_type,parcel_tonnes,cargo,source,source_url
+C18,"Gladstone, Australia","Dhamra, India",Capesize,150000,Coal,Baltic Exchange,https://www.balticexchange.com/en/data-services/market-information/dry-services.html
+P9,"Gladstone, Australia","Dhamra, India",Panamax,75000,Coal,Baltic Exchange,https://www.balticexchange.com/en/data-services/market-information/dry-services.html

@@ -1,0 +1,114 @@
+NAVIFREIGHT — FRONTEND SPECIFICATION
+
+PRODUCT PRINCIPLE
+Decision first. Explanation second. Evidence third.
+
+EXACTLY TWO TOP-LEVEL TABS
+
+1. Cargo Decision
+This is the primary workspace and should receive ~90% of the visual attention.
+
+2. Audit & Evidence
+This is the verification/provenance workspace and should receive ~10% of the visual attention.
+
+CARGO DECISION WORKFLOW
+
+INPUTS
+- Commodity
+- Origin
+- Destination / receiving port
+- Intended cargo volume
+
+Primary CTA:
+Analyze Shipment
+
+PRIMARY OUTPUT HIERARCHY
+Immediately show:
+1. Overall strategy
+2. Procurement signal
+3. Expected freight $/t
+4. Vessel recommendation
+5. Charter timing
+
+Examples:
+BUY CARGO — WAIT TO CHARTER
+BUY CARGO — CHARTER NOW
+WAIT FOR CARGO — MONITOR FREIGHT
+
+WHY SECTION
+Explain the decision using:
+- commodity valuation
+- freight movement/forecast
+- weather risk
+- vessel/port constraints
+- relevant evidence
+
+VESSEL SECTION
+Show recommended vessel first, then comparison.
+
+Include:
+- vessel class
+- DWT
+- draft
+- predicted freight $/t
+- cargo utilization
+- freight outlay
+- suitability reason
+
+Do not sort/select purely by lowest $/t.
+
+LANDED COST
+Show:
+Commodity FOB + Ocean Freight = Estimated Landed Cost
+
+HISTORICAL FREIGHT
+Provide a compact historical chart/context where available.
+It should support the decision, not dominate the screen.
+
+AUDIT & EVIDENCE TAB
+Show:
+- Model V3 identity/hash
+- dataset provenance
+- commodity source
+- vessel specifications
+- port constraints
+- forecast inputs
+- decision logic
+- timestamp / freshness
+- model contribution explanation where available
+
+EXPLAINABILITY LANGUAGE
+Raw linear feature contributions are model contributions, not causal economic impacts.
+Avoid presenting them as causal effects.
+
+REMOVE / DE-EMPHASIZE
+- What-If as a primary feature
+- unnecessary dashboard widgets
+- flashy decorative charts
+- hardcoded weather defaults
+- client-side business logic
+- Auto-Fill as a core workflow feature
+
+VISUAL LANGUAGE
+Enterprise B2B logistics.
+Prioritize:
+- clarity
+- density without clutter
+- strong hierarchy
+- restrained cards
+- tables where useful
+- operational language
+
+Avoid:
+- neumorphism
+- excessive gradients
+- gamification
+- consumer-app styling
+- oversized decorative visuals
+
+RESPONSIVENESS
+Desktop-first, but usable on common laptop/tablet widths.
+
+ARCHITECTURE
+Frontend must consume backend decision APIs.
+Do not duplicate decision logic in JavaScript.

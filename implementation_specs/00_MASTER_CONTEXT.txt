@@ -1,0 +1,123 @@
+NAVIFREIGHT — MASTER IMPLEMENTATION CONTEXT
+
+Purpose
+Build a credible Sept 10 hackathon MVP for:
+“Development of an Intelligent Freight Forecasting Model for Optimized Vessel Chartering and Bulk Cargo Procurement from overseas to East Coast of India”
+
+Core product thesis
+NaviFreight does not merely show the market. It interprets the market and tells the user what decision to make.
+
+Decision hierarchy:
+1. Decision
+2. Explanation
+3. Evidence
+
+Primary user questions
+- When should I buy the commodity?
+- Which vessel should I use?
+- What freight rate should I expect?
+- Should I charter now or wait?
+- Why?
+
+Primary workflow
+User selects:
+- Commodity
+- Origin
+- Destination
+- Intended cargo volume
+
+System returns:
+- BUY / WAIT / MONITOR commodity procurement signal
+- Expected freight $/t
+- Recommended vessel
+- CHARTER NOW / WAIT / MONITOR FREIGHT
+- Overall strategy
+- Why / evidence
+- Landed cost
+- Vessel comparison
+- Historical freight context
+
+MODEL INTEGRITY — DO NOT MODIFY
+Production model:
+freight_forecast_model_v3.joblib
+
+SHA-256:
+71fbb870bb1f555d73a51ed7d83fb5a877cc4405ce54d1fe18407c9ce37c46a8
+
+Model:
+sklearn Pipeline + ColumnTransformer + Ridge(alpha=10)
+
+Prediction:
+predicted = max(1.0, current_freight + clip(predicted_delta, -4, +4))
+
+13-feature contract:
+origin
+destination
+commodity
+vessel_type
+bdi
+vlsfo_usd_per_tonne
+coal_price_usd_per_mt
+iron_ore_price_usd_per_dmt
+wind_kmh
+wave_height_m
+cyclone_risk
+weather_delay_days
+current_freight_usd_per_tonne
+
+cargo_tonnes is representative vessel capacity and is NOT a v3 feature.
+
+AUTHENTIC DATASET
+data/master_freight_training_expanded_v1.csv
+- 110 genuine observations
+- Monthly
+- Feb 2024–Nov 2025
+- 5 canonical combinations
+
+SYNTHETIC DATASET
+data/master_freight_training_synthetic_v2.csv
+- Permanently quarantined
+- Never use it as genuine training/evaluation data
+- Never describe it as real
+
+CANONICAL COMBINATIONS
+1. Australia West Coast → East Coast India / Iron Ore / Capesize
+2. Hay Point → East Coast India / Coal / Capesize
+3. Hay Point → East Coast India / Coal / Panamax
+4. Taboneo → East Coast India / Thermal Coal / Panamax
+5. Taboneo → East Coast India / Thermal Coal / Supramax
+
+CURRENT BACKEND SERVICES
+- Procurement service
+- Vessel suitability service
+- Decision orchestration service
+- Forecast service / Model V3
+- SQLite telemetry
+
+CURRENT IMPLEMENTATION STATUS
+Completed:
+- Procurement valuation/signal service
+- Vessel suitability/optimization service
+- Decision orchestration
+- Landed-cost specification
+- Backend tests
+- Specification package
+
+Next:
+1. Audit decision semantics
+2. Implement landed-cost API/logic if incomplete
+3. Then implement frontend in bounded stages
+4. Run full QA before demo
+
+ENGINEERING RULES
+- Business logic stays backend.
+- Frontend consumes backend decisions.
+- Do not invent market data.
+- Preserve units.
+- Preserve provenance.
+- Do not alter Model V3.
+- Do not expand dataset scope without explicit approval.
+- Do not use minimum freight $/t as the vessel optimization rule.
+- Do not present procurement as an ML commodity-price forecast.
+- Avoid blanket claims about vessel/port suitability.
+- Keep the MVP realistic and enterprise B2B oriented.

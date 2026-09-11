@@ -1,0 +1,5 @@
+vessel_type,standard_dwt,draft_m,cargo_types,source,source_url
+Capesize,182000,18.20,"Iron Ore, Coal, Bauxite",Baltic Exchange,https://www.balticexchange.com/en/data-services/market-information/dry-services.html
+Panamax,82500,14.43,"Coal, Grain, Iron Ore, Bauxite, Fertilizer",Baltic Exchange,https://www.balticexchange.com/en/data-services/market-information/dry-services.html
+Supramax,58328,12.80,"Thermal Coal, Minor Bulks, Fertilizer, Steel, Grain",Baltic Exchange,https://www.balticexchange.com/en/data-services/market-information/dry-services.html
+Handysize,35000,10.00,"Minor Bulks, Fertilizer, Steel, Grain, Coal",Baltic Exchange,https://www.balticexchange.com/en/data-services/market-information/dry-services.html

@@ -1,0 +1,129 @@
+NAVIFREIGHT — AUDIT AND QA SPECIFICATION
+
+MODEL INTEGRITY
+Production model:
+freight_forecast_model_v3.joblib
+
+Required SHA-256:
+71fbb870bb1f555d73a51ed7d83fb5a877cc4405ce54d1fe18407c9ce37c46a8
+
+Verify before demo.
+
+DATASET INTEGRITY
+Genuine freight training dataset:
+data/master_freight_training_expanded_v1.csv
+
+Expected:
+- 110 observations
+- Feb 2024–Nov 2025
+- 5 canonical combinations
+- no duplicates
+- no unexplained modifications
+
+Synthetic dataset:
+data/master_freight_training_synthetic_v2.csv
+must remain quarantined.
+
+COMMODITY DATA
+data/commodity_prices_worldbank.csv
+- World Bank Pink Sheet
+- monthly
+- latest extracted observation through Aug 2026
+- source_date/provenance preserved
+- publication lag must be respected
+
+VESSEL DATA
+data/vessel_specs.csv
+- Capesize 182,000 DWT / 18.20m
+- Panamax 82,500 DWT / 14.43m
+- Supramax 58,328 DWT / 12.80m
+
+BALTIC ROUTE REFERENCE
+data/baltic_route_specs.csv
+- C18 Gladstone → Dhamra Capesize
+- 150,000 mt coal basis
+- P9 Gladstone → Dhamra Panamax
+- 80,000 mt coal basis
+
+These are benchmark definitions/evidence only.
+Do NOT represent them as Hay Point → East Coast India or Taboneo rates.
+
+PORT DATA
+data/port_constraints.csv
+Current known ports:
+Dhamra
+Gangavaram
+Krishnapatnam
+Visakhapatnam
+Paradip
+Haldia
+Kamarajar
+
+Verify any hard operational-draft claim against the strongest current source before presenting it as definitive.
+
+MODEL BENCHMARK
+A recent expanding-window experiment reported:
+- V3 MAE 0.4162
+- RMSE 0.4680
+- directional accuracy 64%
+- 49.7% improvement vs persistence
+
+This is protocol-specific and must not be generalized as universal live accuracy.
+
+Previous clean holdout:
+- 25 observations
+- MAE 0.4730
+- RMSE ~0.58–0.59
+- R² ~0.965
+- directional accuracy 60%
+- persistence MAE 0.8280
+
+Use the appropriate evaluation protocol when discussing metrics.
+
+CURRENT TEST STATUS
+After procurement + vessel + decision work:
+86/86 backend tests passing:
+- 11 decision
+- 17 vessel
+- 11 procurement
+- 4 model-v3 integration
+- 42 backend regression
+- 1 concurrency
+
+Do not claim stale counts if the repository has changed. Re-run the suite.
+
+BUSINESS QA
+Verify:
+- procurement is rule-based, not described as ML
+- freight forecast uses immutable V3
+- vessel optimization uses volume + draft + economics + corridor
+- no suitable vessel state is handled
+- charter decision and overall strategy are semantically consistent
+- weather overrides are explicit
+- landed cost uses only defined components
+- units are preserved
+
+FRONTEND QA
+Verify:
+- exactly two tabs
+- Cargo Decision is primary
+- Audit & Evidence is secondary
+- no duplicated business logic
+- no hardcoded weather/destination values
+- no What-If as primary workflow
+- clear decision hierarchy
+- enterprise B2B visual language
+
+JUDGE QA
+A demo user should understand within seconds:
+- what to buy/wait
+- which vessel to use
+- whether to charter now
+- expected freight
+- estimated landed cost
+- why the system recommends it
+- where the evidence came from
+
+KNOWN MODEL CAVEAT
+Tree-model experiments were rejected despite lower offline error because of poor stress behavior, feature dominance, instability and route/vessel insensitivity.
+Keep Model V3.

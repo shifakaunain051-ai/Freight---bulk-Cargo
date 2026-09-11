@@ -1,0 +1,58 @@
+NAVIFREIGHT — LANDED COST SPECIFICATION
+
+Objective
+Show the user the delivered commodity acquisition cost using the benchmark decision economics.
+
+FORMULA
+Landed Cost = Commodity FOB + Ocean Freight
+
+Where:
+Commodity FOB = procurement benchmark commodity price
+Ocean Freight = forecast freight USD/t
+
+UNIT DISCIPLINE
+Iron ore:
+- commodity price: USD/dmt
+- freight: USD/t
+- preserve the displayed unit convention consistently
+
+Coal:
+- commodity price: USD/mt
+- freight: USD/t
+- preserve the displayed unit convention consistently
+
+Do not silently mix:
+- different iron ore grades
+- CFR and FOB prices
+- unrelated coal benchmarks
+- unrelated freight route assessments
+
+DATA RULES
+- Use World Bank Pink Sheet monthly commodity history as the standardized procurement benchmark.
+- Latest published observation must be respected.
+- New commodity history supports procurement only.
+- It must NOT be appended to freight training data.
+
+UI
+Show:
+- Commodity FOB benchmark
+- Expected ocean freight
+- Estimated landed cost
+- Units
+- Source/provenance where available
+
+Do not invent:
+- port charges
+- demurrage
+- insurance
+- handling
+- taxes
+- inland transport
+unless those are explicitly added later as separate modeled inputs.
+
+TESTS
+- formula correctness
+- unit consistency
+- missing-price handling
+- missing-freight handling
+- provenance preserved
